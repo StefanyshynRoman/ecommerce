@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
   providedIn: 'root',
 })
 export class CartService {
-  cartItem: CartItem[] = [];
+  cartItems: CartItem[] = [];
   totalPrice: Subject<number> = new Subject<number>();
   totalQuantity: Subject<number> = new Subject<number>();
 
@@ -15,30 +15,27 @@ export class CartService {
     //check if already
     let alreadyExistsInCart = false;
     let existingCartItem: CartItem | undefined = undefined;
-    if (this.cartItem.length > 0) {
+    if (this.cartItems.length > 0) {
       //find the item in the cart
-      for (const tempCartItem of this.cartItem) {
-        if (tempCartItem.id === theCartItem.id) {
-          existingCartItem = tempCartItem;
 
-          break;
-        }
-      }
+      existingCartItem = this.cartItems.find(
+        (tempCartItem) => tempCartItem.id === theCartItem.id,
+      );
       //check if we found it
       alreadyExistsInCart = existingCartItem != undefined;
     }
     if (alreadyExistsInCart) {
       existingCartItem!.quantity++;
     } else {
-      this.cartItem.push(theCartItem);
+      this.cartItems.push(theCartItem);
     }
     this.computeCartTotals();
   }
 
-  private computeCartTotals() {
+  computeCartTotals() {
     let totalPriceValue = 0;
     let totalQuantityValue = 0;
-    for (const currentCartItem of this.cartItem) {
+    for (const currentCartItem of this.cartItems) {
       totalPriceValue += currentCartItem.quantity * currentCartItem.unitPrice!;
       totalQuantityValue += currentCartItem.quantity;
     }
@@ -50,7 +47,7 @@ export class CartService {
 
   private logCardDate(totalPriceValue: number, totalQuantityValue: number) {
     console.log('Content of the cart');
-    for (const tempCartItem of this.cartItem) {
+    for (const tempCartItem of this.cartItems) {
       const subtotalPrice = tempCartItem.quantity * tempCartItem.unitPrice!;
       console.log(
         `name: ${tempCartItem.name},
