@@ -26,7 +26,7 @@ export class Luv2ShopFormService {
       .get<GetResponseStates>(searchStatesUrl)
       .pipe(map((response) => response._embedded.states));
   }
-  getCreditCardMonth(startMonth: number): Observable<number[]> {
+  getCreditCardMonths(startMonth: number): Observable<number[]> {
     const data: number[] = [];
     for (let theMonth = startMonth; theMonth <= 12; theMonth++) {
       data.push(theMonth);
