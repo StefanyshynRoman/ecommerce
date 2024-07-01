@@ -2,6 +2,7 @@
   position: relative;
   right: 0;
   min-width: 95px;
+  max-height: 47.5px;
   color: #fff;
   border: 10px solid #205b8d;
   -webkit-border-radius: 3px;
@@ -21,7 +22,7 @@
 .login-status-user-info {
   line-height: 43px;
   border: 1px;
-  color: #666;
+  color: #100d0d;
   padding: 0 17px;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
