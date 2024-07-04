@@ -1,9 +1,6 @@
 package com.stefanyshyn.ecommerce.config;
 
-import com.stefanyshyn.ecommerce.entity.Country;
-import com.stefanyshyn.ecommerce.entity.Product;
-import com.stefanyshyn.ecommerce.entity.ProductCategory;
-import com.stefanyshyn.ecommerce.entity.State;
+import com.stefanyshyn.ecommerce.entity.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.metamodel.EntityType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,15 +31,17 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
     @Override
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) {
         HttpMethod[] theUnsupportedActions = {HttpMethod.PUT, HttpMethod.DELETE,
-                                              HttpMethod.POST, HttpMethod.PATCH};
-        //disable HTTP methods for Product:Put, Post, Delete
+                HttpMethod.POST, HttpMethod.PATCH};
+        //disable HTTP methods for Product:Put, Post, Delete, Patch
         disableHttpMethods(Product.class, config, theUnsupportedActions);
-        //disable HTTP methods for ProductCategory: Put, Post, Delete
+        //disable HTTP methods for ProductCategory: Put, Post, Delete, Patch
         disableHttpMethods(ProductCategory.class, config, theUnsupportedActions);
-        //disable HTTP methods for Country:Put, Post, Delete
+        //disable HTTP methods for Country:Put, Post, Delete, Patch
         disableHttpMethods(Country.class, config, theUnsupportedActions);
-        //disable HTTP methods for State: Put, Post, Delete
+        //disable HTTP methods for State: Put, Post, Delete, Patch
         disableHttpMethods(State.class, config, theUnsupportedActions);
+        //disable HTTP methods for Order: Put, Post, Delete, Patch
+        disableHttpMethods(Order.class, config, theUnsupportedActions);
         //helper
         exposeIds(config);
         cors.addMapping(config.getBasePath() + "/**").allowedOrigins(theAllowedOrigin);
