@@ -15,7 +15,6 @@ import { Router } from '@angular/router';
 import { Order } from '../../common/order';
 import { OrderItem } from '../../common/order-item';
 import { Purchase } from '../../common/purchase';
-import { error } from '@angular/compiler-cli/src/transformers/util';
 
 @Component({
   selector: 'app-checkout',
@@ -31,7 +30,7 @@ export class CheckoutComponent implements OnInit {
   countries: Country[] = [];
   shippingAddressStates: State[] = [];
   billingAddressStates: State[] = [];
-
+  storage: Storage = sessionStorage;
   constructor(
     private formBuilder: FormBuilder,
     private luv2ShopFormService: Luv2ShopFormService,
@@ -40,11 +39,14 @@ export class CheckoutComponent implements OnInit {
     private router: Router,
   ) {}
   ngOnInit() {
+    //read the user email from storage
+    const theEmail = JSON.parse(this.storage.getItem('userEmail')!);
+
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
         firstName: this.formControlValidations(),
         lastName: this.formControlValidations(),
-        email: new FormControl('', [
+        email: new FormControl(theEmail, [
           Validators.required,
           Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
         ]),
@@ -265,7 +267,6 @@ export class CheckoutComponent implements OnInit {
           `Form control 'state' does not exist in ${formGroupName}`,
         );
       }
-      //formGroup?.get('state').setValue(data[0] ?? '');
     });
   }
 
