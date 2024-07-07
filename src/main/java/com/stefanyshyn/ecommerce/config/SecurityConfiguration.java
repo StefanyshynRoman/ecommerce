@@ -15,14 +15,14 @@ public class SecurityConfiguration {
 
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
         //protect endpoint /api/orders
         http.authorizeHttpRequests(requests ->
                         requests
                                 .requestMatchers("/api/orders/**")
                                 .authenticated()
                                 .anyRequest().permitAll())
-                .oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer.jwt(Customizer.withDefaults()));
+                                .oauth2ResourceServer(oauth2ResourceServer ->
+                        oauth2ResourceServer.jwt(Customizer.withDefaults()));
 
         // + CORS filters
         http.cors(Customizer.withDefaults());
