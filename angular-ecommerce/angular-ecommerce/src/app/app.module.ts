@@ -28,18 +28,7 @@ import { OktaAuth } from '@okta/okta-auth-js';
 import { MembersPageComponent } from './components/members-page/members-page.component';
 import { OrderHistoryComponent } from './components/order-history/order-history.component';
 import { AuthInterceptorService } from './services/auth-interceptor.service';
-// const oktaConfig = Object.assign(
-//   {
-//     onAuthRequired: ({ injector }: { injector: any }) => {
-//       const router = injector.get(Router);
-//
-//       // Redirect the user to your custom login page
-//
-//       router.navigate(['/login']);
-//     },
-//   },
-//   myAppConfig.oidc,
-// );
+
 const oktaConfig = myAppConfig.oidc;
 const oktaAuth = new OktaAuth(oktaConfig);
 function sendToLoginPage(oktaAuth: OktaAuth, injector: Injector) {
