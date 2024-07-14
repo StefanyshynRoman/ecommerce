@@ -23,7 +23,7 @@ public class CheckoutServiceImpl implements CheckoutService {
     public CheckoutServiceImpl(CustomerRepository customerRepository,
                                @Value("${stripe.key.secret}") String secretKey) {
         this.customerRepository = customerRepository;
-        Stripe.apiKey=secretKey;
+        Stripe.apiKey = secretKey;
     }
 
     @Override
@@ -40,10 +40,10 @@ public class CheckoutServiceImpl implements CheckoutService {
         order.setShippingAddress(purchase.getShippingAddress());
 
         Customer customer = purchase.getCustomer();
-        String theEmail=customer.getEmail();
-        Customer customerFromDB=customerRepository.findByEmail(theEmail);
-        if(customerFromDB!=null){
-            customer=customerFromDB;
+        String theEmail = customer.getEmail();
+        Customer customerFromDB = customerRepository.findByEmail(theEmail);
+        if (customerFromDB != null) {
+            customer = customerFromDB;
         }
         customer.add(order);
         customerRepository.save(customer);
@@ -52,13 +52,14 @@ public class CheckoutServiceImpl implements CheckoutService {
 
     @Override
     public PaymentIntent createPaymentIntent(PaymentInfo paymentInfo) throws StripeException {
-        List<String> paymentMethodTypes=new ArrayList<>();
+        List<String> paymentMethodTypes = new ArrayList<>();
         paymentMethodTypes.add("card");
-        Map<String,Object> params=new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
         params.put("amount", paymentInfo.getAmount());
         params.put("currency", paymentInfo.getCurrency());
         params.put("payment_method_types", paymentMethodTypes);
-
+        params.put("description", "Luv2Shop purchase");
+         params.put("receipt_email", paymentInfo.getReceiptEmail());
         return PaymentIntent.create(params);
     }
 
